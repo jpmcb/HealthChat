@@ -8,6 +8,17 @@ var port = 8000;
 var db = 'healthchat';
 var url = 'mongodb://localhost:27017/' + db;
 
+
+// import the users database functions
+var usersDataBase = require('./databases/users.js');
+
+// create the users database
+usersDataBase.createUserDB();
+
+// create a test user (this function prevents multiple users)
+usersDataBase.insertUser("foo", "bar", "testUser", "helloworld", "nurse");
+
+
 app.set('port', port);
 app.set('view engine', 'ejs');
 
