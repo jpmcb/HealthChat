@@ -13,14 +13,14 @@ var url = 'mongodb://localhost:27017/' + db;
 var createUserDB = function() {
 	// connect to the database
 	mongo.connect(url, function(err, db) {
-	  if (err) throw err;
+	 	if (err) throw err;
 
 	  // create the user collection
-	  db.createCollection("users", function(err, res) {
-	  	if (err) throw err;
-	  	console.log("Collection created!");
-	  	db.close();
-	  });
+		db.createCollection("users", function(err, res) {
+	  		if (err) throw err;
+	  		console.log("Collection created!");
+	  		db.close();
+	  	});
 	});
 }
 
