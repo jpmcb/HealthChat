@@ -18,6 +18,8 @@ usersDataBase.createUserDB();
 // create a test user (this function prevents multiple users)
 usersDataBase.insertUser("foo", "bar", "testUser", "helloworld", "nurse");
 
+// import the rooms database functions
+var roomsDataBase = require('./databases/rooms.js');
 
 app.set('port', port);
 app.set('view engine', 'ejs');
@@ -38,6 +40,15 @@ app.post('/home', function(req, res) {
 				res.render('login');
 			} else {
 				res.render('home', { username: req.body.username });
+
+				// Test code that creates a room22 collection, stores a basic
+				// message in that collection, and then searches the collection
+				// for that message. See the rooms.js file for further documentation
+				roomsDataBase.createRoomsDB(22);
+				roomsDataBase.storeMessage(22, 'Hello world! I am a message!', 'testUser');
+				roomsDataBase.searchMessages(22, 'Hello world', function(result) {
+					console.log(result);
+				});
 			}	
 			db.close();
 		});
