@@ -6,6 +6,11 @@
 // module needed to encrypt passwords
 var bcrypt = require('bcrypt');
 
+// module for encrypting messages
+var crypto = require('crypto');
+var algorithm = 'aes192';
+var password = 'abcdef';
+
 // constant needed to salt the hashes
 const saltRounds = 10;
 
@@ -30,7 +35,27 @@ var checkPassword = function(password, hash, callback) {
 	});
 }
 
+// function to encrfypt messages going into the database
+var encryptMessage = function(message, callback) {
+	var cipher = crypto.createCipher(algorithm, password);
+	var crypted = cipher.update(message, 'utf8', 'hex');
+	crypted += cipher.final('hex');
+
+	callback(crypted);
+}
+
+// function to decrypt messagse going out of the database
+var decryptMessage = function(message, callback) {
+	var decipher = crypto.createDecipher(algorithm, password);
+	var decrypt = decipher.update(message, 'hex', 'utf8');
+	decrypt += decipher.final('utf8');
+
+	callback(decrypt);
+}
+
 module.exports = {
 	encryptPassword: encryptPassword,
-	checkPassword: checkPassword
+	checkPassword: checkPassword,
+	encryptMessage: encryptMessage,
+	decryptMessage: decryptMessage
 };
