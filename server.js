@@ -25,7 +25,6 @@ var io = require('socket.io')(server);
 // Include the public style and client side js files
 app.use(express.static(path.join(__dirname + '/public')));
 
-
 // import the users database functions
 var usersDataBase = require('./databases/users.js');
 
@@ -41,9 +40,18 @@ usersDataBase.insertUser("foo", "bar", "testUser", "helloworld", "nurse");
 usersDataBase.insertUser("Jill", "Smith", "usertwo", "password", "nurse");
 usersDataBase.insertUser("Bill", "Bob", "hashtest", "abcABC123", "doctor");
 
-
 // import the rooms database functions
 var roomsDataBase = require('./databases/rooms.js');
+
+
+///////////////////////////////
+// Encryption
+// Messages are now automatically encrypted.
+// To decrypt, use   -->   encrypt.decryptMessage(encrypted-hash, callback(plaintext-string) { do stuff });
+// to encrypt stuff  -->   encrypt.encryptMessage(plaintext-string, callback(encrypted-hash) { do stuff });
+///////////////////////////////
+var encrypt = require('./encryption.js');
+
 
 app.set('port', port);
 app.set('view engine', 'ejs');

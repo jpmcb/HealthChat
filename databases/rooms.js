@@ -9,6 +9,7 @@ var mongo = require('mongodb').MongoClient;
 var db = 'healthchat';
 var url = 'mongodb://localhost:27017/' + db;
 
+var encrypt = require('../encryption.js');
 
 //
 // This function creates a room collection. The collection will be named room + some number.
@@ -36,20 +37,22 @@ var createRoomsDB = function(room) {
 //
 
 var storeMessage = function(room, message, sender) {
+	encrypt.encryptMessage(message, function(crypted) {
+		var messageLog = {
+			sender: sender,
+			timestamp: Date.now(),
+			message: crypted
+		}
 
-	var message = {
-		sender: sender,
-		timestamp: Date.now(),
-		message: message,
-	}
+		mongo.connect(url, function(err, db) {
+			db.collection("room" + room).insertOne(messageLog, function(err, res) {
+				if (err) throw err;
 
-	mongo.connect(url, function(err, db) {
-		db.collection("room" + room).insertOne(message, function(err, res) {
-			if (err) throw err;
-			console.log("The message was stored");
-			db.close();
+				console.log("The message was stored");
+				db.close();
+			});
 		});
-	});
+	});	
 }
 
 
@@ -62,11 +65,17 @@ var searchMessages = function(room, searchQuery, callback) {
 	mongo.connect(url, function(err, db) {
 		if (err) throw err;
 
-		db.collection("room" + room).find({ message: new RegExp(searchQuery) }).toArray(function(err, result) {
-			if (err) throw err;
-			db.close();
+		encrypt.encryptMessage(searchQuery, function(result) {
+			console.log('Search encryption: ' + result);
 
-			callback(result);
+			db.collection("room" + room).find({ message: result }).toArray(function(err, result) {
+				if (err) throw err;
+
+				console.log(result);
+
+				db.close();
+				callback(result);	
+			});
 		});
 	});
 }
