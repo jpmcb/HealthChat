@@ -5,12 +5,14 @@
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.18.1",
+    "client-sessions": "^0.8.0",
     "ejs": "^2.5.7",
     "express": "^4.15.4",
     "http": "0.0.0",
     "mongo": "^0.1.0",
     "mongodb": "^2.2.31",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "socket.io": "^2.0.3"
   },
   "devDependencies": {},
   "scripts": {
