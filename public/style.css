@@ -1,0 +1,75 @@
+body {
+	font-family: "Open Sans", Verdana;
+	text-align: center;
+	background-color: #D2CCA1;
+	color: #636466;
+}
+
+input, textarea {
+	background-color: #DDD8C4;
+	color: #636466;
+	border: 0px;
+	padding: 5px;
+}
+
+input[type="submit"], button {
+	background-color: #636466;
+	color: #DDD8C4;
+	border: 0px;
+	padding: 5px;
+}
+
+input[type="submit"]:hover, button:hover {
+	background-color: #053761;
+}
+
+/**************************************
+The top menu for the site
+**************************************/
+#menutop {
+	background-color: #053761;
+	color: #DDD8C4;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 100;
+	font-size: 20px;
+}
+
+#menutop ul {
+	list-style-type: none;
+	overflow: hidden;
+}
+
+#menutop li {
+	display: inline-block;
+	margin: 20px;
+}
+
+#menutop a {
+	color: #DDD8C4;
+}
+
+#menutop a:hover {
+	text-decoration: none;
+	color: #F1D3A5;
+}
+
+/**************************************
+The body of the homepage
+**************************************/
+#homearea {
+	margin-top: 120px;
+}
+
+/**************************************
+The body of the chat room
+**************************************/
+#chatarea {
+	margin-top: 120px;
+}
+
+#message {
+	width: 50%;
+	height: 100px;
+}
