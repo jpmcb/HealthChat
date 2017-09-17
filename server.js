@@ -25,8 +25,13 @@ var usersDataBase = require('./databases/users.js');
 usersDataBase.createUserDB();
 
 // create a test user (this function prevents multiple users)
+usersDataBase.deleteUser('testUser');
+usersDataBase.deleteUser('usertwo');
+usersDataBase.deleteUser('hashtest');
+
 usersDataBase.insertUser("foo", "bar", "testUser", "helloworld", "nurse");
 usersDataBase.insertUser("Jill", "Smith", "usertwo", "password", "nurse");
+usersDataBase.insertUser("Bill", "Bob", "hashtest", "abcABC123", "doctor");
 
 // import the rooms database functions
 var roomsDataBase = require('./databases/rooms.js');
@@ -55,19 +60,16 @@ app.get('/home', function(req, res) {
 });
 
 app.post('/home', function(req, res) {
-	mongo.connect(url, function(err, db) {
-		db.collection('users').findOne({
-			username: req.body.username
-		}, function(err, result) {
-			if (result === null || result.password !== req.body.password) {
-				res.render('login');
-			}
-			else {
-				req.session.username = req.body.username;
-				res.render('home', { username: req.body.username, roomList: "" });
-			}	
-			db.close();
-		});
+	
+	// User authentication process for logging in
+	var login = usersDataBase.authenticate((req.body.username), (req.body.password), function(result) {
+		if (result) {
+			console.log('Welcome, ' + req.body.username + ' was logged in succesfully');
+			req.session.username = req.body.username;
+			res.render('home', { username: req.body.username, roomList: "" });
+		} else {
+			res.render('login');
+		}
 	});
 });
 
