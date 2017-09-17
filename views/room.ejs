@@ -16,6 +16,7 @@ Hello <div id='userName'><%- username %></div><br>
 
 You are chatting in room <%- roomname %>
 
+<br><br><br>
 <!--
 List previous messages
  - realtime - show new messages as they appear
@@ -28,5 +29,7 @@ Message entry
 <textarea id='message'></textarea><br>
 <button onclick='sendMessage(<%- roomname %>)'>Send Message</button>
 
+<script src="/socket.io/socket.io.js"></script>
+<script src="/client.js"></script>
 </body>
 </html>

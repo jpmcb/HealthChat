@@ -18,6 +18,14 @@ app.use(session({
 	activeDuration: (1000 * 60 * 10)
 }));
 
+// Sockets
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+
+// Include the public style and client side js files
+app.use(express.static(path.join(__dirname + '/public')));
+
+
 // import the users database functions
 var usersDataBase = require('./databases/users.js');
 
@@ -48,6 +56,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/logout', function(req, res) {
+	req.session.reset();
 	res.render('login');
 });
 
@@ -167,4 +176,12 @@ app.get(['/room*'], function(req, res) {
 	res.render('room', { username: req.session.username, roomname: roomname });
 });
 
-app.listen(port);
+io.on('connection', function(socket) {
+	console.log('User connected...');
+	
+	socket.on('sendNewMsg', function(msg) {
+		roomsDataBase.storeMessage(msg.room, msg.message, msg.user);
+	});
+});
+
+server.listen(port);
