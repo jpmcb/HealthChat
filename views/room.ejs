@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>
+<link rel='stylesheet' href=''>
+</head>
+<body>
+
+<br><br>
+
+Hello <div id='userName'><%- username %></div><br>
+<a href='/logout'>Log Out</a>
+<br>
+<a href='/home'>Home</a>
+<br><br>
+
+You are chatting in room <%- roomname %>
+
+<!--
+List previous messages
+ - realtime - show new messages as they appear
+ - show the message and the user
+ - Keep it all within the screen, let the user scroll to see previous messages
+
+Message entry
+-->
+<br><br><br>
+<textarea id='message'></textarea><br>
+<button onclick='sendMessage(<%- roomname %>)'>Send Message</button>
+
+</body>
+</html>

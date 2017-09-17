@@ -6,9 +6,26 @@
 </head>
 <body>
 
-<h1>Home</h1>
+<br><br>
 
-Welcome <%- username %>
+Hello <div id='userName'><%- username %></div><br>
+<a href='/logout'>Log Out</a>
+
+<br><br><br>
+<h3>Search for a room</h3>
+<form action='/roomSearch' method='POST'>
+	<input type='text' name='roomSearch'>
+	<input type='submit' value='Search for Room'>
+</form>
+
+<%- roomList %>
+
+<br><br><br>
+<h3>Add a room</h3>
+<form action='/roomAdd' method='POST'>
+	<input type='text' name='roomAdd'>
+	<input type='submit' value='Add Room'>
+</form>
 
 </body>
 </html>
