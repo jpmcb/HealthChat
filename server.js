@@ -60,42 +60,42 @@ app.post('/home', function(req, res) {
 	});
 });
 
+// Will search the collections for rooms matching the proper pattern
 app.post('/roomSearch', function(req, res) {
 	mongo.connect(url, function(err, db) {
-		db.collection('rooms').find({
-			roomNumber: {
-				$regex: req.body.roomSearch,
-				$options: "i"
-			}
-		}).toArray(function(err, results) {
-			if (results === null) {
-				res.render('home', { username: req.session.username, roomList: "No rooms found" });
-			} else {
-				var rooms = "<table><thead><th>Rooms</th></thead><tbody>";
-				
-				for (room in results) {
-					rooms += "<tr><td><a href='/room" + results[room].roomNumber + "'>";
-					rooms += results[room].roomNumber;
+		db.listCollections().toArray(function(err, results) {
+			// Put the rooms into a table
+			var rooms = "<table><thead><th>Rooms</th></thead><tbody>";
+		
+			// Search the room name for names containing the search query string
+			var rnametest = new RegExp(req.body.roomSearch);
+		
+			// Check each room
+			for (room in results) {
+				// Grab the part after "room" for testing
+				var rnamefrag = results[room].name.split("room").pop();
+
+				// Make sure the collection contains both "room" at the beginning
+				// and the search query somewhere in the second half of the collection name
+				if (/^room[a-z0-9]+$/.test(results[room].name) && rnametest.test(rnamefrag)) {
+					// Put the name into a row
+					rooms += "<tr><td><a href='/" + results[room].name + "'>";
+					rooms += rnamefrag;
 					rooms += "</a></td></tr>";
 				}
-				
-				rooms += "</tbody></table>";
-				
-				res.render('home', { username: req.session.username, roomList: rooms });
 			}
+	
+			rooms += "</tbody></table>";
+		
+			// Rerender the home page with the table of rooms
+			res.render('home', { username: req.session.username, roomList: rooms });
 		});
 	});
 });
 
 app.post('/roomAdd', function(req, res) {
-	mongo.connect(url, function(err, db) {
-		db.collection('rooms').insert({
-			roomNumber: req.body.roomAdd
-		}, function(err, result) {
-			res.render('home', { username: req.session.username, roomList: "" });
-			db.close();
-		});
-	});
+	roomsDataBase.createRoomsDB(Number(req.body.roomAdd));
+	res.render('home', { username: req.session.username, roomList: "" });
 });
 
 app.listen(port);

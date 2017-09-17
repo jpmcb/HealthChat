@@ -11,10 +11,8 @@ var url = 'mongodb://localhost:27017/' + db;
 
 
 //
-// This function creates a room collection. The collection will be named room + some 
-number.
-// For example, if the number 22 is passed to the function, there will be a room22 
-collection
+// This function creates a room collection. The collection will be named room + some number.
+// For example, if the number 22 is passed to the function, there will be a room22 collection
 // created
 //
 
@@ -32,10 +30,8 @@ var createRoomsDB = function(room) {
 
 
 //
-// This function stores the messages that are passed to the function in the specified 
-room.
-// For example, if the function is passed 22, "This is a message", and testUser, the 
-collection 
+// This function stores the messages that are passed to the function in the specified room.
+// For example, if the function is passed 22, "This is a message", and testUser, the collection 
 // will now store that message in the room collection along with a unix timestamp
 //
 
@@ -58,18 +54,15 @@ var storeMessage = function(room, message, sender) {
 
 
 //
-// This function searches the specified database for a message. A callback function 
-is performed 
-// with the resulting data. The messages that match the regexp query are sent as an 
-array of objects
+// This function searches the specified database for a message. A callback function is performed 
+// with the resulting data. The messages that match the regexp query are sent as an array of objects
 //
 
 var searchMessages = function(room, searchQuery, callback) {
 	mongo.connect(url, function(err, db) {
 		if (err) throw err;
 
-		db.collection("room" + room).find({ message: new RegExp(searchQuery) 
-}).toArray(function(err, result) {
+		db.collection("room" + room).find({ message: new RegExp(searchQuery) }).toArray(function(err, result) {
 			if (err) throw err;
 			db.close();
 
