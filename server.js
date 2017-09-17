@@ -93,6 +93,7 @@ app.post('/roomSearch', function(req, res) {
 	});
 });
 
+// Add a room to the db
 app.post('/roomAdd', function(req, res) {
 	roomsDataBase.createRoomsDB(Number(req.body.roomAdd));
 	res.render('home', { username: req.session.username, roomList: "" });
