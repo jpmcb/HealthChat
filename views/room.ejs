@@ -11,21 +11,9 @@
 Hello <div id='userName'><%- username %></div><br>
 <a href='/logout'>Log Out</a>
 
-<br><br><br>
-<h3>Search for a room</h3>
-<form action='/roomSearch' method='POST'>
-	<input type='text' name='roomSearch'>
-	<input type='submit' value='Search for Room'>
-</form>
+<br>
 
-<%- roomList %>
-
-<br><br><br>
-<h3>Add a room</h3>
-<form action='/roomAdd' method='POST'>
-	<input type='text' name='roomAdd'>
-	<input type='submit' value='Add Room'>
-</form>
+You are chatting in room <%- roomname %>
 
 </body>
 </html>

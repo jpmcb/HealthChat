@@ -99,4 +99,9 @@ app.post('/roomAdd', function(req, res) {
 	res.render('home', { username: req.session.username, roomList: "" });
 });
 
+app.get(['/room*'], function(req, res) {
+	var roomname = req.url.split("room").pop();
+	res.render('room', { username: req.session.username, roomname: roomname });
+});
+
 app.listen(port);
