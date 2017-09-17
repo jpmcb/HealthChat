@@ -6,9 +6,38 @@
 </head>
 <body>
 
-<h1>Home</h1>
+<br><br>
 
-Welcome <%- username %>
+Hello <div id='userName'><%- username %></div><br>
+<a href='/logout'>Log Out</a>
+
+<br><br><br>
+<h3>Search for a room</h3>
+<form action='/roomSearch' method='POST'>
+	<input type='text' name='roomSearch'>
+	<input type='submit' value='Search for Room'>
+</form>
+
+<%- roomList %>
+
+<br><br><br>
+<h3>Add a room</h3>
+<form action='/roomAdd' method='POST'>
+	<input type='text' name='roomAdd'>
+	<input type='submit' value='Add Room'>
+</form>
+
+<!--
+Menu for logging in and out, display username
+
+Search for room number, display results
+ - ie, a search of "20" would match "200, 201, 202, 120, etc"
+ - each result has a link with a form to take the user to the room page
+
+Feature to add a room
+ - only admins can do so
+ - add a room number to the rooms database
+-->
 
 </body>
 </html>
