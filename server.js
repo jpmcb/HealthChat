@@ -26,6 +26,7 @@ usersDataBase.createUserDB();
 
 // create a test user (this function prevents multiple users)
 usersDataBase.insertUser("foo", "bar", "testUser", "helloworld", "nurse");
+usersDataBase.insertUser("Jill", "Smith", "usertwo", "password", "nurse");
 
 // import the rooms database functions
 var roomsDataBase = require('./databases/rooms.js');
@@ -105,8 +106,24 @@ app.post('/roomSearch', function(req, res) {
 
 // Add a room to the db
 app.post('/roomAdd', function(req, res) {
-	roomsDataBase.createRoomsDB(Number(req.body.roomAdd));
-	res.render('home', { username: req.session.username, roomList: "" });
+	mongo.connect(url, function(err, db) {
+		db.listCollections().toArray(function(err, results) {
+			var rname = "room" + req.body.roomAdd;
+			var found = 0;
+			
+			// Check each room
+			for (room in results) {
+				// Make sure the room doesn't already exist
+				if (results[room].name === rname) found = 1;
+			}
+			
+			if (found === 0) {
+				roomsDataBase.createRoomsDB(Number(req.body.roomAdd));
+			}
+
+			res.render('home', { username: req.session.username, roomList: "" });
+		});
+	});
 });
 
 app.get(['/room*'], function(req, res) {
