@@ -44,6 +44,15 @@ app.get('/logout', function(req, res) {
 	res.render('login');
 });
 
+app.get('/home', function(req, res) {
+	if (req.session.username) {
+		res.render('home', { username: req.session.username, roomList: "" });
+	}
+	else {
+		res.render('login');
+	}
+});
+
 app.post('/home', function(req, res) {
 	mongo.connect(url, function(err, db) {
 		db.collection('users').findOne({
@@ -51,7 +60,8 @@ app.post('/home', function(req, res) {
 		}, function(err, result) {
 			if (result === null || result.password !== req.body.password) {
 				res.render('login');
-			} else {
+			}
+			else {
 				req.session.username = req.body.username;
 				res.render('home', { username: req.body.username, roomList: "" });
 			}	

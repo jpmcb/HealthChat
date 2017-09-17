@@ -10,10 +10,23 @@
 
 Hello <div id='userName'><%- username %></div><br>
 <a href='/logout'>Log Out</a>
-
 <br>
+<a href='/home'>Home</a>
+<br><br>
 
 You are chatting in room <%- roomname %>
+
+<!--
+List previous messages
+ - realtime - show new messages as they appear
+ - show the message and the user
+ - Keep it all within the screen, let the user scroll to see previous messages
+
+Message entry
+-->
+<br><br><br>
+<textarea id='message'></textarea><br>
+<button onclick='sendMessage(<%- roomname %>)'>Send Message</button>
 
 </body>
 </html>
