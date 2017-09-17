@@ -33,6 +33,7 @@ usersDataBase.insertUser("foo", "bar", "testUser", "helloworld", "nurse");
 usersDataBase.insertUser("Jill", "Smith", "usertwo", "password", "nurse");
 usersDataBase.insertUser("Bill", "Bob", "hashtest", "abcABC123", "doctor");
 
+
 // import the rooms database functions
 var roomsDataBase = require('./databases/rooms.js');
 
@@ -70,6 +71,39 @@ app.post('/home', function(req, res) {
 		} else {
 			res.render('login');
 		}
+	});
+});
+
+// Will search the collections for rooms matching the proper pattern
+app.post('/roomSearch', function(req, res) {
+	mongo.connect(url, function(err, db) {
+		db.listCollections().toArray(function(err, results) {
+			// Put the rooms into a table
+			var rooms = "<table><thead><th>Rooms</th></thead><tbody>";
+		
+			// Search the room name for names containing the search query string
+			var rnametest = new RegExp(req.body.roomSearch);
+		
+			// Check each room
+			for (room in results) {
+				// Grab the part after "room" for testing
+				var rnamefrag = results[room].name.split("room").pop();
+
+				// Make sure the collection contains both "room" at the beginning
+				// and the search query somewhere in the second half of the collection name
+				if (/^room[a-z0-9]+$/.test(results[room].name) && rnametest.test(rnamefrag)) {
+					// Put the name into a row
+					rooms += "<tr><td><a href='/" + results[room].name + "'>";
+					rooms += rnamefrag;
+					rooms += "</a></td></tr>";
+				}
+			}
+	
+			rooms += "</tbody></table>";
+		
+			// Rerender the home page with the table of rooms
+			res.render('home', { username: req.session.username, roomList: rooms });
+		});
 	});
 });
 
