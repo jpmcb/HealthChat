@@ -78,7 +78,6 @@ app.get('/home', function(req, res) {
 });
 
 app.post('/home', function(req, res) {
-	
 	// User authentication process for logging in
 	var login = usersDataBase.authenticate((req.body.username), (req.body.password), function(result) {
 		if (result) {
@@ -97,7 +96,7 @@ app.post('/roomSearch', function(req, res) {
 		db.listCollections().toArray(function(err, results) {
 			// Put the rooms into a table
 			var rooms = "<table><thead><th>Rooms</th></thead><tbody>";
-		
+
 			// Search the room name for names containing the search query string
 			var rnametest = new RegExp(req.body.roomSearch);
 		
@@ -127,9 +126,9 @@ app.post('/roomSearch', function(req, res) {
 // Will search the collections for rooms matching the proper pattern
 app.post('/roomSearch', function(req, res) {
 	mongo.connect(url, function(err, db) {
-		db.listCollections().toArray(function(err, results) {
+		db.listCollections().toArray(function(err, results) {			
 			// Put the rooms into a table
-			var rooms = "<table><thead><th>Rooms</th></thead><tbody>";
+			var rooms = "<table id='roomstable'><thead><th>Rooms</th></thead><tbody>";
 		
 			// Search the room name for names containing the search query string
 			var rnametest = new RegExp(req.body.roomSearch);
@@ -187,8 +186,68 @@ app.get(['/room*'], function(req, res) {
 io.on('connection', function(socket) {
 	console.log('User connected...');
 	
+	// Store messages that were sent
 	socket.on('sendNewMsg', function(msg) {
 		roomsDataBase.storeMessage(msg.room, msg.message, msg.user);
+
+		mongo.connect(url, function(err, db) {
+			if (err) throw err;
+
+			db.collection("room" + msg.rmname).find().toArray(function(err, results) {
+				if (err) throw err;
+
+				var msgs = [];
+
+				for (result in results) {
+					var m = {
+						sender: results[result].sender,
+					};
+					
+					var d = new Date(results[result].timestamp).toISOString();
+					m.timestamp = String(d);
+					
+					encrypt.decryptMessage(results[result].message, function(decryptMsg) {
+						m.message = decryptMsg;
+						msgs.push(m);
+					});
+				}
+
+				socket.emit('showNewMsg', {
+					msgs: msgs
+				});
+			});
+		});
+	});
+	
+	// For a room, get the messages for that room
+	socket.on('getMsgs', function(rm) {		
+		mongo.connect(url, function(err, db) {
+			if (err) throw err;
+
+			db.collection("room" + rm.rmname).find().toArray(function(err, results) {
+				if (err) throw err;
+
+				var msgs = [];
+
+				for (result in results) {
+					var m = {
+						sender: results[result].sender,
+					};
+					
+					var d = new Date(results[result].timestamp).toISOString();
+					m.timestamp = String(d);
+					
+					encrypt.decryptMessage(results[result].message, function(decryptMsg) {
+						m.message = decryptMsg;
+						msgs.push(m);
+					});
+				}
+
+				socket.emit('recvMsgs', {
+					msgs: msgs
+				});
+			});
+		});
 	});
 });
 

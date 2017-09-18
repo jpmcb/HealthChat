@@ -17,24 +17,45 @@
 
 <div id='chatarea'>
 
-	<h2>You are chatting in room <%- roomname %></h2>
+	<h2>You are chatting in room <span id='rmname'><%- roomname %></span></h2>
 
-	<br><br><br>
-	<!--
-	List previous messages
-	 - realtime - show new messages as they appear
-	 - show the message and the user
-	 - Keep it all within the screen, let the user scroll to see previous messages
+	<div id='storedMsgs'></div>
 
-	Message entry
-	-->
-	<br><br><br>
-	<textarea id='message'></textarea><br>
+	<textarea id='message'></textarea><br><Br>
 	<button onclick='sendMessage(<%- roomname %>)'>Send Message</button>
 
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script>
+	var socket = io();
+	
+	function sortMsgs(msg1, msg2) {
+		if (msg1.timestamp < msg2.timestamp) return -1;
+		else if (msg1.timestamp > msg2.timestamp) return 1;
+		else return 0;
+	}
+	
+	socket.emit('getMsgs', {
+		rmname: document.getElementById('rmname').innerHTML
+	});
+	
+	socket.on('recvMsgs', function(result) {		
+		result.msgs.sort(sortMsgs);
+		
+		var msgResults = "";
+		
+		for (msg in result.msgs) {
+			msgResults += "<div id='msg'>";
+			msgResults += result.msgs[msg].sender + ": ";
+			msgResults += result.msgs[msg].message;
+			msgResults += "<br>" + result.msgs[msg].timestamp;
+			msgResults += "</div><br>";
+		}
+		
+		document.getElementById('storedMsgs').innerHTML = msgResults;
+	});	
+</script>
 <script src="/client.js"></script>
 </body>
 </html>

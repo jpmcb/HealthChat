@@ -62,6 +62,29 @@ The body of the homepage
 	margin-top: 120px;
 }
 
+table {
+	margin: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	border: 2px solid #636466;
+	font-size: 16px;
+}
+
+table td, table th {
+	border: 2px solid #636466;
+	padding: 5px;
+}
+
+table th {
+	background-color: #053761;
+	color: #F1D3A5;
+}
+
+table td {
+	background-color: #DDD8C4;
+	color: #636466;
+}
+
 /**************************************
 The body of the chat room
 **************************************/
@@ -72,4 +95,11 @@ The body of the chat room
 #message {
 	width: 50%;
 	height: 100px;
+}
+
+#msg {
+	background-color: #BAC8D3;
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
 }
