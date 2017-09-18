@@ -6,7 +6,7 @@ var mongo = require('mongodb').MongoClient;
 var app = express();
 var port = 8000;
 var db = 'healthchat';
-var url = 'mongodb://localhost:27017/' + db;
+var url = 'mongodb://heroku_cdsnp58c:6hmqg1i0en9ffmonrn2uuaoem2@ds139984.mlab.com:39984/heroku_cdsnp58c/' + db;
 
 // Implement sessions
 var session = require('client-sessions');
@@ -42,7 +42,6 @@ usersDataBase.insertUser("Bill", "Bob", "hashtest", "abcABC123", "doctor");
 
 // import the rooms database functions
 var roomsDataBase = require('./databases/rooms.js');
-
 
 ///////////////////////////////
 // Encryption
