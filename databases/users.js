@@ -3,8 +3,9 @@
 
 // MongoClient handling variables (these can be changed)
 var mongo = require('mongodb').MongoClient;
-var db = 'healthchat';
-var url = 'mongodb://heroku_cdsnp58c:6hmqg1i0en9ffmonrn2uuaoem2@ds139984.mlab.com:39984/heroku_cdsnp58c/' + db;
+//var db = 'healthchat';
+var db = '';
+var url = 'mongodb://heroku_cdsnp58c:6hmqg1i0en9ffmonrn2uuaoem2@ds139984.mlab.com:39984/heroku_cdsnp58c' + db;
 
 var encrypt = require('../encryption.js');
 
