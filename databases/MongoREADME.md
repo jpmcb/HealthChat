@@ -1,9 +1,12 @@
 # Mongo README
 _____
 
-User collection: {firstname: "Foo", lastname: "Bar", username: "foobar", password: "helloworld", type: "nurse"}
+User collection:
+* The passwords appear in the database as encrypted hashes 
 
-Message collection: {roomname: "ICU", message: "I need help", type: "nurse", timestamp: "21:45"}
+`{firstname: "Foo", lastname: "Bar", username: "foobar", password: "helloworld", type: "nurse"}`
 
-Rooms collections - each room will have a seperate collection
-room22: {sender: "testUser", timestamp: "15141234984", message: "Patient needs pain meds"}
+Rooms collections - each room represents a seperate chat and is implemented in the database as a seperate collection
+* The message field is encrypted in the database
+
+`{sender: "testUser", timestamp: "15141234984", message: "Patient needs pain meds"}`

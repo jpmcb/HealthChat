@@ -178,6 +178,17 @@ app.post('/roomAdd', function(req, res) {
 	});
 });
 
+// USER LOGIN SCREEN
+app.post('/newuser', function(req, res) {
+	res.render('newuser');
+});
+
+// Create the new user and go back to the login screen
+app.post('/createUser', function(req, res) {
+	usersDataBase.insertUser(req.body.firstname, req.body.lastname, req.body.username, req.body.password, req.body.type);
+	res.render('login');
+});
+
 app.get(['/room*'], function(req, res) {
 	var roomname = req.url.split("room").pop();
 	res.render('room', { username: req.session.username, roomname: roomname });
