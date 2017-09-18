@@ -8,5 +8,4 @@ Test users:
 * hashtest  ----  Password: abcABC123
 
 Created by:
-mcbridej@oregonstate.edu
-willijo@oregonstate.edu
+John: mcbridej@oregonstate.edu & Will: willijo@oregonstate.edu
