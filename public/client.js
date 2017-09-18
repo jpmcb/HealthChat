@@ -18,9 +18,8 @@ function sendMessage(room) {
 
 			for (msg in result.msgs) {
 				msgResults += "<div id='msg'>";
-				msgResults += result.msgs[msg].sender + ": ";
+				msgResults += result.msgs[msg].sender + " " + result.msgs[msg].timestamp + "<br>";
 				msgResults += result.msgs[msg].message;
-				msgResults += "<br>" + result.msgs[msg].timestamp;
 				msgResults += "</div><br>";
 			}
 	
