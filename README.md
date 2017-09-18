@@ -7,3 +7,6 @@ Test users:
 * usertwo  ----  Password: password
 * hashtest  ----  Password: abcABC123
 
+Created by:
+mcbridej@oregonstate.edu
+willijo@oregonstate.edu
