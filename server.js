@@ -204,7 +204,7 @@ io.on('connection', function(socket) {
 		mongo.connect(url, function(err, db) {
 			if (err) throw err;
 
-			db.collection("room" + msg.rmname).find().toArray(function(err, results) {
+			db.collection("room" + msg.room).find().toArray(function(err, results) {
 				if (err) throw err;
 
 				var msgs = [];
